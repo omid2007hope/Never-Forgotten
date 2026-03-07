@@ -1,0 +1,20 @@
+{
+  "name": "never-forgotten",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "Frontend",
+    "Backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n frontend,backend -c blue,green \"npm run dev --workspace Frontend\" \"npm run dev --workspace Backend\"",
+    "dev:frontend": "npm run dev --workspace Frontend",
+    "dev:backend": "npm run dev --workspace Backend",
+    "build": "npm run build --workspace Frontend",
+    "start:frontend": "npm run start --workspace Frontend",
+    "start:backend": "npm run start --workspace Backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
