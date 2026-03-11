@@ -18,7 +18,7 @@ export default function Header() {
       <Link
         key={option.id}
         href={option.href}
-        className="flex h-full w-1/3 items-center justify-center font-semibold text-lg"
+        className="flex h-full w-1/3 items-center justify-center font-thin md:font-semibold lg:font-semibold text-sm md:text-lg lg:text-lg"
       >
         {option.name}
       </Link>
@@ -30,7 +30,7 @@ export default function Header() {
         {renderOptions(leftOptions)}
       </div>
       <div className="flex h-full w-1/3 items-center justify-center px-4">
-        <h1 className=" text-3xl flex items-center justify-center font-bold text-yellow-300">
+        <h1 className=" font-thin md:font-semibold lg:font-semibold text-sm md:text-2xl lg:text-3xl flex items-center justify-center text-yellow-300">
           Never Forgotten
         </h1>
       </div>
