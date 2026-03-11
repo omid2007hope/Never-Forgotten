@@ -49,9 +49,9 @@ export default function HomePage() {
   }, []);
 
   return (
-    <>
+    <main className="flex min-h-screen w-full flex-col items-center">
       <Header />
-      <Home />
-    </>
+      <Home apiStatus={apiStatus} />
+    </main>
   );
 }

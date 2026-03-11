@@ -1,7 +1,5 @@
 export default function Promobanner() {
   return (
-    <>
-      <div className="w-full h-30/100 bg-amber-100"></div>
-    </>
+    <section className="w-full min-h-[30vh] bg-amber-100"></section>
   );
 }
