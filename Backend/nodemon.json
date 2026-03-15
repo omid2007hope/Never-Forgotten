@@ -1,7 +1,6 @@
 {
   "watch": [
     "Server.js",
-    "app.js",
     "api",
     "controller",
     "database",
