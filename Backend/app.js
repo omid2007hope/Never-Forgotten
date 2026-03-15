@@ -21,14 +21,6 @@ app.get("/server", (req, res) => {
   });
 });
 
-app.get("/server/health", (req, res) => {
-  res.json({
-    status: "ok",
-    service: "express-backend",
-    timestamp: new Date().toISOString(),
-  });
-});
-
 app.use((req, res) => {
   res.status(404).json({
     message: "Route not found",

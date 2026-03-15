@@ -3,6 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import FetchHeaderData from "../../../api/versionOne/Header";
+
+export async function sendHeaderDataToApi(headerOptionList) {
+  try {
+    return await FetchHeaderData(headerOptionList);
+  } catch (error) {
+    console.error("Failed to sync header options:", error);
+    return null;
+  }
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
