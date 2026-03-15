@@ -1,6 +1,23 @@
 {
-  "watch": ["."],
+  "watch": [
+    "Server.js",
+    "app.js",
+    "api",
+    "controller",
+    "database",
+    "middleware",
+    "model",
+    "router",
+    "service",
+    "tests",
+    "utils",
+    "validation",
+    "view",
+    ".env.local"
+  ],
   "ext": "js,json",
   "ignore": ["node_modules", "*.log"],
-  "exec": "node Server.js"
+  "exec": "node Server.js",
+  "signal": "SIGTERM",
+  "delay": "300"
 }
