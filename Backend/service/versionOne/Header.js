@@ -1,50 +1,46 @@
-
+const BaseService = require("../BaseService");
 const Header = require("../../model/HeaderModel");
 
-async function getHeaders() {
-  return Header.find().sort({ id: 1 }).lean();
-}
-
-async function createHeaders(payload) {
-  const entries = Array.isArray(payload) ? payload : [payload];
-
-  if (entries.length === 0) {
-    throw new Error("At least one header entry is required.");
+class HeaderService extends BaseService {
+  constructor() {
+    super(Header);
   }
 
-  const normalizedEntries = entries.map(({ id, name, href, link }) => ({
+  normalizeHeader = ({ id, name, href, link }) => ({
     id,
     name,
     link: link ?? href,
-  }));
+  });
 
-  return Header.insertMany(normalizedEntries, { ordered: true });
+  getHeaders = async () => this.findAllWithSort({}, { id: 1 });
+
+  createHeaders = async (payload) => {
+    const entries = Array.isArray(payload) ? payload : [payload];
+
+    if (entries.length === 0) {
+      throw new Error("At least one header entry is required.");
+    }
+
+    return Promise.all(
+      entries.map((entry) => this.createObject(this.normalizeHeader(entry))),
+    );
+  };
+
+  updateHeader = async (id, payload) => {
+    const update = {};
+
+    if (payload.name !== undefined) {
+      update.name = payload.name;
+    }
+
+    if (payload.link !== undefined || payload.href !== undefined) {
+      update.link = payload.link ?? payload.href;
+    }
+
+    return this.update({ id: Number(id) }, update);
+  };
+
+  deleteHeader = async (id) => this.hardDelete({ id: Number(id) });
 }
 
-async function updateHeader(id, payload) {
-  const update = {};
-
-  if (payload.name !== undefined) {
-    update.name = payload.name;
-  }
-
-  if (payload.link !== undefined || payload.href !== undefined) {
-    update.link = payload.link ?? payload.href;
-  }
-
-  return Header.findOneAndUpdate({ id: Number(id) }, update, {
-    new: true,
-    runValidators: true,
-  }).lean();
-}
-
-async function deleteHeader(id) {
-  return Header.findOneAndDelete({ id: Number(id) }).lean();
-}
-
-module.exports = {
-  getHeaders,
-  createHeaders,
-  updateHeader,
-  deleteHeader,
-};
+module.exports = new HeaderService();
