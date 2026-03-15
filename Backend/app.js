@@ -11,17 +11,17 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/server", (req, res) => {
   res.json({
     message: "Never Forgotten backend is running.",
   });
 });
 
-app.get("/health", (req, res) => {
+app.get("/server/health", (req, res) => {
   res.json({
     status: "ok",
     service: "express-backend",
