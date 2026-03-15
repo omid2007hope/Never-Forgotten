@@ -15,8 +15,10 @@ export async function sendHeaderDataToApi(headerOptionList) {
 }
 
 export default function Header() {
+  // useState setOpen for Mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Header's option list - Limit 6 option in total
   const headerOptionList = [
     { name: "Home", id: 1, href: "/" },
     { name: "Legends", id: 2, href: "/" },
@@ -26,12 +28,23 @@ export default function Header() {
     { name: "Login", id: 6, href: "/" },
   ];
 
+  // Prevents CSS Probelm when there are more than 6 option in the DataBase
+
+  if (headerOptionList.id > 6) {
+    alert("Header: Only 6 option is allowed, more causes CSS problems");
+    return;
+  }
+
+  // Left side - filter - id === 3 or id < 3
   const leftOptions = headerOptionList.filter((option) => option.id <= 3);
+  // Right side -  filter - id > 3
   const rightOptions = headerOptionList.filter((option) => option.id > 3);
 
+  // Global CSS Style for Dekstop
   const desktopLinkClassName =
     "flex items-center justify-center whitespace-nowrap px-3 py-2 text-sm font-medium text-amber-50 transition hover:text-yellow-300 lg:text-base";
 
+  // Global CSS Style for Mobile
   const mobileLinkClassName =
     "block rounded-md border border-white/10 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-yellow-300/40 hover:text-yellow-300";
 
