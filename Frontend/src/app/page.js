@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Home from "./page/HomePage";
 import Header from "./component/layout/header/Header";
+import HeaderV1 from "./component/layout/header/versionOne/Header";
 
 const initialStatus = {
   label: "Checking backend",
@@ -50,7 +51,7 @@ export default function HomePage() {
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center">
-      <Header />
+      <HeaderV1 />
       <Home apiStatus={apiStatus} />
     </main>
   );

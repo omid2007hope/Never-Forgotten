@@ -1,9 +1,15 @@
-import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import { Cinzel, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const headingFont = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
+});
+
+const displayFont = Cinzel({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
 });
 
 const monoFont = IBM_Plex_Mono({
@@ -20,7 +26,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${headingFont.variable} ${monoFont.variable}`}>
+      <body className={`${headingFont.variable} ${displayFont.variable} ${monoFont.variable}`}>
         {children}
       </body>
     </html>
