@@ -133,7 +133,7 @@ export default function HeaderV1() {
           </div>
         </div>
 
-        <div className="hidden w-full lg:flex ">
+        <div className="hidden w-full lg:flex">
           <div className="flex flex-row justify-between w-full items-stretch">
             <nav
               className="w-1/3 flex flex-row justify-evenly items-center gap-1 px-4 xl:gap-2 xl:px-6"
@@ -151,7 +151,7 @@ export default function HeaderV1() {
               ))}
             </nav>
 
-            <div className="w-1/3 flex items-center justify-center px-2 py-1 xl:w-[34rem]">
+            <div className="w-1/3 flex items-center justify-center px-2 py-1">
               <div className="flex h-24 w-full items-center justify-center border border-[#d8b55d] px-4 shadow-[0_8px_24px_rgba(0,0,0,0.35)] xl:h-28">
                 <div
                   className="flex h-full w-full items-center justify-center px-4 py-2"
