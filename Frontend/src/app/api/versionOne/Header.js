@@ -1,29 +1,35 @@
-import axios from "axios";
-import BaseURL from "../BaseURL";
+async function fetchHeaderData() {
+  const response = await fetch("/api/headers", {
+    method: "GET",
+    cache: "no-store",
+  });
 
-async function FetchHeaderData(HeaderData) {
-  if (!Array.isArray(HeaderData) || HeaderData.length === 0) {
-    throw new Error("HeaderData must be a non-empty array");
+  if (!response.ok) {
+    let message = `Failed to fetch header data (${response.status})`;
+
+    try {
+      const payload = await response.json();
+      message = payload.error || payload.message || message;
+    } catch {
+      // Keep the default message when the response body is not JSON.
+    }
+
+    throw new Error(message);
   }
 
-  const normalizedHeaderData = HeaderData.map(({ id, name, href, link }) => ({
-    id,
-    name,
-    link: link ?? href,
-  }));
+  const headerData = await response.json();
 
-  try {
-    const response = await axios.post(
-      `${BaseURL}/server/header`,
-      normalizedHeaderData,
-    );
-    return response.data;
-  } catch (error) {
-    const message =
-      error.response?.data?.error || error.response?.data || error.message;
-    console.error("Request failed:", message);
-    throw error;
+  if (!Array.isArray(headerData)) {
+    throw new Error("Header API returned an invalid payload.");
   }
+
+  return headerData
+    .map(({ id, name, link, href }) => ({
+      id,
+      name,
+      href: link ?? href ?? "/",
+    }))
+    .filter((option) => option.id && option.name);
 }
 
-export default FetchHeaderData;
+export default fetchHeaderData;

@@ -1,50 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import FetchHeaderData from "../../../api/versionOne/Header";
 
-export async function sendHeaderDataToApi(headerOptionList) {
-  try {
-    return await FetchHeaderData(headerOptionList);
-  } catch (error) {
-    console.error("Failed to sync header options:", error);
-    return null;
-  }
-}
-
 export default function Header() {
-  // useState setOpen for Mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [headerOptionList, setHeaderOptionList] = useState([]);
+  const [hasLoadedHeader, setHasLoadedHeader] = useState(false);
 
-  // Header's option list - Limit 6 option in total
-  const headerOptionList = [
-    { name: "Home", id: 1, href: "/" },
-    { name: "Legends", id: 2, href: "/" },
-    { name: "Daily Edition", id: 3, href: "/" },
-    { name: "Stories", id: 4, href: "/" },
-    { name: "Submit & Tribute", id: 5, href: "/" },
-    { name: "Login", id: 6, href: "/" },
-  ];
+  useEffect(() => {
+    let isMounted = true;
 
-  // Prevents CSS Probelm when there are more than 6 option in the DataBase
+    async function loadHeaderOptions() {
+      try {
+        const headerData = await FetchHeaderData();
 
-  if (headerOptionList.id > 6) {
-    alert("Header: Only 6 option is allowed, more causes CSS problems");
-    return;
-  }
+        if (!isMounted) {
+          return;
+        }
 
-  // Left side - filter - id === 3 or id < 3
+        const limitedHeaderData = headerData
+          .sort((firstOption, secondOption) => firstOption.id - secondOption.id)
+          .slice(0, 6);
+
+        if (headerData.length > 6) {
+          console.warn("Header: Only 6 options are allowed. Extra items were ignored.");
+        }
+
+        setHeaderOptionList(limitedHeaderData);
+      } catch (error) {
+        if (isMounted) {
+          console.error("Failed to load header options:", error);
+          setHeaderOptionList([]);
+        }
+      } finally {
+        if (isMounted) {
+          setHasLoadedHeader(true);
+        }
+      }
+    }
+
+    loadHeaderOptions();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const leftOptions = headerOptionList.filter((option) => option.id <= 3);
-  // Right side -  filter - id > 3
   const rightOptions = headerOptionList.filter((option) => option.id > 3);
 
-  // Global CSS Style for Dekstop
   const desktopLinkClassName =
     "flex items-center justify-center whitespace-nowrap px-3 py-2 text-sm font-medium text-amber-50 transition hover:text-yellow-300 lg:text-base";
 
-  // Global CSS Style for Mobile
   const mobileLinkClassName =
     "block rounded-md border border-white/10 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-yellow-300/40 hover:text-yellow-300";
 
@@ -110,6 +120,11 @@ export default function Header() {
                 {option.name}
               </Link>
             ))}
+            {hasLoadedHeader && headerOptionList.length === 0 ? (
+              <span className="rounded-md border border-white/10 px-4 py-3 text-sm text-amber-50/70">
+                No header items found.
+              </span>
+            ) : null}
           </nav>
         </div>
       ) : null}
