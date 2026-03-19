@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Home from "./page/HomePage";
-import Header from "./component/layout/header/Header";
 import HeaderV1 from "./component/layout/header/versionOne/Header";
 
 const initialStatus = {
