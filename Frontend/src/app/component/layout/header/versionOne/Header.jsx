@@ -187,6 +187,12 @@ export default function HeaderV1() {
                   {option.name}
                 </Link>
               ))}
+              <button
+                className="flex items-center justify-center font-bold text-2xl px-3 py-2 rounded-lg text-green-950"
+                style={goldTextureStyle}
+              >
+                Login
+              </button>
             </nav>
           </div>
         </div>
